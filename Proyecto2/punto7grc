@@ -56,7 +56,7 @@ blocks:
     rangeType: float
     start: '0'
     step: '1'
-    stop: '100'
+    stop: '30'
     value: '0'
     widget: counter_slider
   states:
