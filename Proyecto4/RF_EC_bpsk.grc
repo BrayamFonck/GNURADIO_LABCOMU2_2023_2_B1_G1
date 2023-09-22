@@ -69,7 +69,7 @@ blocks:
     start: '0'
     step: samp_rate/1000
     stop: samp_rate/8
-    value: Rb*8
+    value: Rb*4
     widget: counter_slider
   states:
     bus_sink: false

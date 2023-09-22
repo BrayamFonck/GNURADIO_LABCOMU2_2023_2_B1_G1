@@ -163,7 +163,7 @@ blocks:
     affinity: ''
     alias: ''
     comment: ''
-    const: '0'
+    const: '1'
     maxoutbuf: '0'
     minoutbuf: '0'
     type: float
@@ -171,7 +171,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1088, 404.0]
+    coordinate: [1120, 404.0]
     rotation: 180
     state: true
 - name: analog_random_source_x_0
@@ -211,7 +211,7 @@ blocks:
     bus_structure: null
     coordinate: [248, 108.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_char_to_float_0
   id: blocks_char_to_float
   parameters:
@@ -244,9 +244,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1008, 116.0]
+    coordinate: [808, 188.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_multiply_const_vxx_0_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -264,7 +264,7 @@ blocks:
     bus_structure: null
     coordinate: [472, 108.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_multiply_const_vxx_0_1
   id: blocks_multiply_const_vxx
   parameters:
@@ -280,7 +280,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1312, 124.0]
+    coordinate: [1328, 60.0]
     rotation: 0
     state: disabled
 - name: epy_block_0
@@ -288,10 +288,8 @@ blocks:
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\nimport math\n\nclass\
       \ blk(gr.sync_block):  \n    \"\"\"This block is a RF VCO and works as following:\
-      \ \u2026..The code for the e_RF_VCO_ff diagram indicates the signals that enter\
-      \ the block, which are: the R(t) signal and the phase signal tetha of t. In\
-      \ formula it would be. \"\"\"\n\n    def __init__(self, fc=128000, samp_rate=320000):\
-      \  \n        gr.sync_block.__init__(\n            self,\n            name='e_RF_VCO_ff',\
+      \ \u2026..\"\"\"\n\n    def __init__(self, fc=128000, samp_rate=320000):  \n\
+      \        gr.sync_block.__init__(\n            self,\n            name='e_RF_VCO_ff',\
       \   \n            in_sig=[np.float32, np.float32],\n            out_sig=[np.float32]\n\
       \        )\n        self.fc = fc\n        self.samp_rate = samp_rate\n     \
       \   self.n_m=0\n\n    def work(self, input_items, output_items):\n        A=input_items[0]\n\
@@ -309,13 +307,11 @@ blocks:
   states:
     _io_cache: "('e_RF_VCO_ff', 'blk', [('fc', '128000'), ('samp_rate', '320000')],\
       \ [('0', 'float', 1), ('1', 'float', 1)], [('0', 'float', 1)], 'This block is\
-      \ a RF VCO and works as following: \u2026..The code for the e_RF_VCO_ff diagram\
-      \ indicates the signals that enter the block, which are: the R(t) signal and\
-      \ the phase signal tetha of t. In formula it would be. ', ['fc', 'samp_rate'])"
+      \ a RF VCO and works as following: \u2026..', ['fc', 'samp_rate'])"
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1102, 213]
+    coordinate: [1112, 172.0]
     rotation: 0
     state: true
 - name: epy_block_0_0
@@ -323,9 +319,7 @@ blocks:
   parameters:
     _source_code: "import numpy as np\nfrom gnuradio import gr\nimport math\n\nclass\
       \ blk(gr.sync_block):  \n    \"\"\"This block is a CE VCO or baseband VCO and\
-      \ works as following: The code for the e_EC_VCO_fc diagram indicates the signals\
-      \ that enter the block, which are: the R(t) signal and the phase signal tetha\
-      \ of t. In formula it would be\"\"\"\n\n    def __init__(self,):  \n       \
+      \ works as following: \u2026..\"\"\"\n\n    def __init__(self,):  \n       \
       \ gr.sync_block.__init__(\n            self,\n            name='e_CE_VCO_fc',\
       \   \n            in_sig=[np.float32, np.float32],\n            out_sig=[np.complex64]\n\
       \        )\n        \n    def work(self, input_items, output_items):\n     \
@@ -337,15 +331,13 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
   states:
-    _io_cache: '(''e_CE_VCO_fc'', ''blk'', [], [(''0'', ''float'', 1), (''1'', ''float'',
-      1)], [(''0'', ''complex'', 1)], ''This block is a CE VCO or baseband VCO and
-      works as following: The code for the e_EC_VCO_fc diagram indicates the signals
-      that enter the block, which are: the R(t) signal and the phase signal tetha
-      of t. In formula it would be'', [])'
+    _io_cache: "('e_CE_VCO_fc', 'blk', [], [('0', 'float', 1), ('1', 'float', 1)],\
+      \ [('0', 'complex', 1)], 'This block is a CE VCO or baseband VCO and works as\
+      \ following: \u2026..', [])"
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1104, 304.0]
+    coordinate: [1128, 296.0]
     rotation: 0
     state: true
 - name: epy_block_0_1
@@ -376,9 +368,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [816, 124.0]
+    coordinate: [760, 124.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: import_0
   id: import
   parameters:
@@ -421,7 +413,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [600, 196.0]
+    coordinate: [576, 204.0]
     rotation: 0
     state: true
 - name: qtgui_const_sink_x_0
@@ -1089,7 +1081,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [804.0, 328]
+    coordinate: [732.0, 344]
     rotation: 270
     state: true
 - name: virtual_sink_0_0_0_0
@@ -1172,20 +1164,18 @@ blocks:
     state: true
 
 connections:
-- [analog_const_source_x_0, '0', epy_block_0, '1']
-- [analog_const_source_x_0, '0', epy_block_0_0, '1']
+- [analog_const_source_x_0, '0', epy_block_0, '0']
+- [analog_const_source_x_0, '0', epy_block_0_0, '0']
 - [analog_random_source_x_0, '0', blocks_char_to_float_0, '0']
 - [blocks_add_const_vxx_0, '0', blocks_multiply_const_vxx_0_0, '0']
 - [blocks_char_to_float_0, '0', blocks_add_const_vxx_0, '0']
-- [blocks_char_to_float_0, '0', interp_fir_filter_xxx_0, '0']
-- [blocks_char_to_float_0, '0', virtual_sink_0_0, '0']
+- [blocks_multiply_const_vxx_0, '0', epy_block_0, '1']
+- [blocks_multiply_const_vxx_0, '0', epy_block_0_0, '1']
 - [blocks_multiply_const_vxx_0_0, '0', interp_fir_filter_xxx_0, '0']
 - [blocks_multiply_const_vxx_0_0, '0', virtual_sink_0_0, '0']
 - [epy_block_0, '0', virtual_sink_0_0_0_0, '0']
 - [epy_block_0_0, '0', virtual_sink_0_0_0_0_0, '0']
 - [epy_block_0_1, '0', blocks_multiply_const_vxx_0, '0']
-- [interp_fir_filter_xxx_0, '0', epy_block_0, '0']
-- [interp_fir_filter_xxx_0, '0', epy_block_0_0, '0']
 - [interp_fir_filter_xxx_0, '0', epy_block_0_1, '0']
 - [interp_fir_filter_xxx_0, '0', virtual_sink_0_0_0, '0']
 - [virtual_source_0_0, '0', qtgui_time_sink_x_0_0, '0']
