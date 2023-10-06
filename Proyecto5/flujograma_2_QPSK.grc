@@ -271,7 +271,7 @@ blocks:
     bus_structure: null
     coordinate: [0, 228.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_add_xx_0
   id: blocks_add_xx
   parameters:
@@ -305,7 +305,7 @@ blocks:
     bus_structure: null
     coordinate: [240, 252.0]
     rotation: 0
-    state: disabled
+    state: enabled
 - name: blocks_packed_to_unpacked_xx_0
   id: blocks_packed_to_unpacked_xx
   parameters:
@@ -394,7 +394,7 @@ blocks:
     bus_structure: null
     coordinate: [40, 348.0]
     rotation: 0
-    state: enabled
+    state: disabled
 - name: digital_chunks_to_symbols_xx_0
   id: digital_chunks_to_symbols_xx
   parameters:
@@ -862,6 +862,7 @@ blocks:
 connections:
 - [analog_noise_source_x_0, '0', blocks_add_xx_0, '0']
 - [analog_random_source_x_0, '0', blocks_pack_k_bits_bb_0, '0']
+- [analog_random_source_x_0, '0', prob, '0']
 - [blocks_add_xx_0, '0', virtual_sink_0_0, '0']
 - [blocks_pack_k_bits_bb_0, '0', blocks_packed_to_unpacked_xx_0, '0']
 - [blocks_packed_to_unpacked_xx_0, '0', digital_chunks_to_symbols_xx_0, '0']
