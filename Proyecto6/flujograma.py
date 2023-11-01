@@ -6,46 +6,34 @@
 #
 # GNU Radio Python Flow Graph
 # Title: Not titled yet
-# GNU Radio version: 3.10.5.1
+# GNU Radio version: 3.10.7.0
 
 from packaging.version import Version as StrictVersion
-
-if __name__ == '__main__':
-    import ctypes
-    import sys
-    if sys.platform.startswith('linux'):
-        try:
-            x11 = ctypes.cdll.LoadLibrary('libX11.so')
-            x11.XInitThreads()
-        except:
-            print("Warning: failed to XInitThreads()")
-
 from PyQt5 import Qt
-from gnuradio import eng_notation
 from gnuradio import qtgui
-from gnuradio.filter import firdes
-import sip
 from gnuradio import analog
 from gnuradio import audio
 from gnuradio import blocks
 from gnuradio import digital
+from gnuradio import eng_notation
 from gnuradio import filter
+from gnuradio.filter import firdes
 from gnuradio import gr
 from gnuradio.fft import window
 import sys
 import signal
+from PyQt5 import Qt
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
 from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import E3TRadio
 import math
+import sip
 import time
 import threading
 
 
-
-from gnuradio import qtgui
 
 class flujograma(gr.top_block, Qt.QWidget):
 
@@ -56,8 +44,8 @@ class flujograma(gr.top_block, Qt.QWidget):
         qtgui.util.check_set_qss()
         try:
             self.setWindowIcon(Qt.QIcon.fromTheme('gnuradio-grc'))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not set Icon: {str(exc)}", file=sys.stderr)
         self.top_scroll_layout = Qt.QVBoxLayout()
         self.setLayout(self.top_scroll_layout)
         self.top_scroll = Qt.QScrollArea()
@@ -77,8 +65,8 @@ class flujograma(gr.top_block, Qt.QWidget):
                 self.restoreGeometry(self.settings.value("geometry").toByteArray())
             else:
                 self.restoreGeometry(self.settings.value("geometry"))
-        except:
-            pass
+        except BaseException as exc:
+            print(f"Qt GUI: Could not restore geometry: {str(exc)}", file=sys.stderr)
 
         ##################################################
         # Variables
@@ -96,11 +84,12 @@ class flujograma(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate = RS*Sps
         self.noise = noise = 0
         self.h = h = [1]*Sps
-        self.escala = escala = 1
+        self.escala = escala = 128
         self.audio_rate = audio_rate = 48000
         self.RB = RB = RS*bps
         self.Label_0 = Label_0 = function_probe1
         self.Label = Label = function_probe
+        self.GRX = GRX = 1
 
         ##################################################
         # Blocks
@@ -113,9 +102,12 @@ class flujograma(gr.top_block, Qt.QWidget):
         self._noise_range = Range(0, 1, 0.0125, 0, 200)
         self._noise_win = RangeWidget(self._noise_range, self.set_noise, "Ruido", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._noise_win)
-        self._escala_range = Range(1, 256, 1, 1, 200)
+        self._escala_range = Range(1, 256, 1, 128, 200)
         self._escala_win = RangeWidget(self._escala_range, self.set_escala, "escala", "counter_slider", float, QtCore.Qt.Horizontal)
         self.top_layout.addWidget(self._escala_win)
+        self._GRX_range = Range(0, 10, 0.1, 1, 200)
+        self._GRX_win = RangeWidget(self._GRX_range, self.set_GRX, "Ganancia RX", "counter_slider", float, QtCore.Qt.Horizontal)
+        self.top_layout.addWidget(self._GRX_win)
         self.qtgui_time_sink_x_2 = qtgui.time_sink_f(
             1024, #size
             samp_rate, #samp_rate
@@ -305,6 +297,47 @@ class flujograma(gr.top_block, Qt.QWidget):
 
         self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.qwidget(), Qt.QWidget)
         self.top_layout.addWidget(self._qtgui_freq_sink_x_0_win)
+        self.qtgui_const_sink_x_0_0 = qtgui.const_sink_c(
+            1024, #size
+            "", #name
+            1, #number of inputs
+            None # parent
+        )
+        self.qtgui_const_sink_x_0_0.set_update_time(0.10)
+        self.qtgui_const_sink_x_0_0.set_y_axis((-2), 2)
+        self.qtgui_const_sink_x_0_0.set_x_axis((-2), 2)
+        self.qtgui_const_sink_x_0_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, qtgui.TRIG_SLOPE_POS, 0.0, 0, "")
+        self.qtgui_const_sink_x_0_0.enable_autoscale(False)
+        self.qtgui_const_sink_x_0_0.enable_grid(False)
+        self.qtgui_const_sink_x_0_0.enable_axis_labels(True)
+
+
+        labels = ['', '', '', '', '',
+            '', '', '', '', '']
+        widths = [1, 1, 1, 1, 1,
+            1, 1, 1, 1, 1]
+        colors = ["blue", "red", "red", "red", "red",
+            "red", "red", "red", "red", "red"]
+        styles = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
+        markers = [0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0]
+        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
+            1.0, 1.0, 1.0, 1.0, 1.0]
+
+        for i in range(1):
+            if len(labels[i]) == 0:
+                self.qtgui_const_sink_x_0_0.set_line_label(i, "Data {0}".format(i))
+            else:
+                self.qtgui_const_sink_x_0_0.set_line_label(i, labels[i])
+            self.qtgui_const_sink_x_0_0.set_line_width(i, widths[i])
+            self.qtgui_const_sink_x_0_0.set_line_color(i, colors[i])
+            self.qtgui_const_sink_x_0_0.set_line_style(i, styles[i])
+            self.qtgui_const_sink_x_0_0.set_line_marker(i, markers[i])
+            self.qtgui_const_sink_x_0_0.set_line_alpha(i, alphas[i])
+
+        self._qtgui_const_sink_x_0_0_win = sip.wrapinstance(self.qtgui_const_sink_x_0_0.qwidget(), Qt.QWidget)
+        self.top_layout.addWidget(self._qtgui_const_sink_x_0_0_win)
         self.qtgui_const_sink_x_0 = qtgui.const_sink_c(
             1024, #size
             "", #name
@@ -384,6 +417,7 @@ class flujograma(gr.top_block, Qt.QWidget):
         self.blocks_vector_sink_x_0 = blocks.vector_sink_b(1, 1024)
         self.blocks_unpacked_to_packed_xx_0 = blocks.unpacked_to_packed_bb(2, gr.GR_MSB_FIRST)
         self.blocks_packed_to_unpacked_xx_0 = blocks.packed_to_unpacked_bb(bps, gr.GR_MSB_FIRST)
+        self.blocks_multiply_const_vxx_3 = blocks.multiply_const_cc(GRX)
         self.blocks_multiply_const_vxx_2 = blocks.multiply_const_ff(volumen)
         self.blocks_multiply_const_vxx_1 = blocks.multiply_const_ff((1/escala))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1/Sps)
@@ -394,18 +428,6 @@ class flujograma(gr.top_block, Qt.QWidget):
         self.audio_sink_0_0 = audio.sink(44100, '', True)
         self.analog_noise_source_x_0_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noise, 0)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, noise, 0)
-        self.Menu = Qt.QTabWidget()
-        self.Menu_widget_0 = Qt.QWidget()
-        self.Menu_layout_0 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Menu_widget_0)
-        self.Menu_grid_layout_0 = Qt.QGridLayout()
-        self.Menu_layout_0.addLayout(self.Menu_grid_layout_0)
-        self.Menu.addTab(self.Menu_widget_0, 'Time & Freq')
-        self.Menu_widget_1 = Qt.QWidget()
-        self.Menu_layout_1 = Qt.QBoxLayout(Qt.QBoxLayout.TopToBottom, self.Menu_widget_1)
-        self.Menu_grid_layout_1 = Qt.QGridLayout()
-        self.Menu_layout_1.addLayout(self.Menu_grid_layout_1)
-        self.Menu.addTab(self.Menu_widget_1, 'Freq')
-        self.top_layout.addWidget(self.Menu)
         self._Label_0_tool_bar = Qt.QToolBar(self)
 
         if None:
@@ -434,10 +456,9 @@ class flujograma(gr.top_block, Qt.QWidget):
         ##################################################
         # Connections
         ##################################################
-        self.connect((self.E3TRadio_diezmador_cc_0, 0), (self.digital_constellation_decoder_cb_0, 0))
+        self.connect((self.E3TRadio_diezmador_cc_0, 0), (self.blocks_multiply_const_vxx_3, 0))
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.analog_noise_source_x_0_0, 0), (self.blocks_add_xx_0_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_time_sink_x_0, 0))
         self.connect((self.blocks_add_xx_0_0, 0), (self.blocks_multiply_const_vxx_0, 0))
         self.connect((self.blocks_char_to_float_0, 0), (self.blocks_multiply_const_vxx_1, 0))
@@ -447,6 +468,8 @@ class flujograma(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_const_vxx_1, 0), (self.qtgui_time_sink_x_2, 1))
         self.connect((self.blocks_multiply_const_vxx_2, 0), (self.audio_sink_0_0, 0))
         self.connect((self.blocks_multiply_const_vxx_2, 0), (self.qtgui_time_sink_x_2, 0))
+        self.connect((self.blocks_multiply_const_vxx_3, 0), (self.digital_constellation_decoder_cb_0, 0))
+        self.connect((self.blocks_multiply_const_vxx_3, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_packed_to_unpacked_xx_0, 0), (self.digital_chunks_to_symbols_xx_0, 0))
         self.connect((self.blocks_unpacked_to_packed_xx_0, 0), (self.blocks_char_to_float_0, 0))
         self.connect((self.blocks_unpacked_to_packed_xx_0, 0), (self.blocks_vector_sink_x_0, 0))
@@ -457,6 +480,7 @@ class flujograma(gr.top_block, Qt.QWidget):
         self.connect((self.digital_constellation_decoder_cb_0, 0), (self.blocks_unpacked_to_packed_xx_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_add_xx_0, 1))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_add_xx_0_0, 1))
+        self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
 
 
@@ -533,6 +557,7 @@ class flujograma(gr.top_block, Qt.QWidget):
 
     def set_variable_constellation_0(self, variable_constellation_0):
         self.variable_constellation_0 = variable_constellation_0
+        self.digital_constellation_decoder_cb_0.set_constellation(self.variable_constellation_0)
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -592,6 +617,13 @@ class flujograma(gr.top_block, Qt.QWidget):
     def set_Label(self, Label):
         self.Label = Label
         Qt.QMetaObject.invokeMethod(self._Label_label, "setText", Qt.Q_ARG("QString", str(self._Label_formatter(self.Label))))
+
+    def get_GRX(self):
+        return self.GRX
+
+    def set_GRX(self, GRX):
+        self.GRX = GRX
+        self.blocks_multiply_const_vxx_3.set_k(self.GRX)
 
 
 
