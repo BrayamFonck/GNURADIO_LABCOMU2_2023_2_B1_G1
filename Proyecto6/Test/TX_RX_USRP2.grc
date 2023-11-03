@@ -114,7 +114,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2008, 508.0]
+    coordinate: [1944, 516.0]
     rotation: 0
     state: true
 - name: M
@@ -205,6 +205,27 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [328, 148.0]
+    rotation: 0
+    state: enabled
+- name: div
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: div
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '2'
+    stop: '256'
+    value: '1'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1808, 516.0]
     rotation: 0
     state: enabled
 - name: escala
@@ -413,17 +434,38 @@ blocks:
     rotation: 0
     state: disabled
 - name: usrp_rate
-  id: variable
+  id: variable_qtgui_range
   parameters:
     comment: ''
-    value: 1.020408e6
+    gui_hint: ''
+    label: usrp_rate
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '10000'
+    step: '1000'
+    stop: 2e6
+    value: 1.024e6
+    widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [2400, 324.0]
+    coordinate: [2376, 188.0]
     rotation: 0
     state: enabled
+- name: usrp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: samp_rate/div
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [2376, 316.0]
+    rotation: 0
+    state: disabled
 - name: variable_constellation_0
   id: variable_constellation
   parameters:
@@ -440,7 +482,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [560, 1444.0]
+    coordinate: [728, 1460.0]
     rotation: 0
     state: true
 - name: volumen
@@ -477,7 +519,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [440, 2028.0]
+    coordinate: [504, 2100.0]
     rotation: 0
     state: enabled
 - name: GANANCIA_TX
@@ -926,7 +968,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1624, 280.0]
+    coordinate: [1720, 292.0]
     rotation: 0
     state: true
 - name: probe1
@@ -1834,7 +1876,7 @@ blocks:
     nchan: '1'
     num_mboards: '1'
     otw: ''
-    samp_rate: samp_rate
+    samp_rate: usrp_rate
     sd_spec0: ''
     sd_spec1: ''
     sd_spec2: ''
@@ -2706,7 +2748,7 @@ blocks:
     rx_agc7: Default
     rx_agc8: Default
     rx_agc9: Default
-    samp_rate: samp_rate
+    samp_rate: usrp_rate
     sd_spec0: ''
     sd_spec1: ''
     sd_spec2: ''
@@ -2785,7 +2827,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [96, 1828.0]
+    coordinate: [216, 1348.0]
     rotation: 0
     state: enabled
 - name: virtual_source_0_0
